@@ -16,8 +16,14 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+let clearTimer: NodeJS.Timeout;
+
 app.get("/", async (req: Request, res: Response): Promise<Response> => {
 	console.log(req.ip, req.url);
+
+    clearTimeout(clearTimer);
+
+    console.log('draw test screen');
 
     matrix
         .clear()            // clear the display
@@ -35,6 +41,11 @@ app.get("/", async (req: Request, res: Response): Promise<Response> => {
         .drawLine(0, 0, matrix.width(), matrix.height())
         .drawLine(matrix.width() - 1, 0, 0, matrix.height() - 1)
         .sync();
+
+    clearTimer = setTimeout(() => {
+        console.log('clear screen');
+        matrix.clear();
+    }, 5000);
 
 	return res.status(200).send({
             result: "OK",
