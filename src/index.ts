@@ -9,12 +9,13 @@ const matrix = new LedMatrix(
 const app: Application = express();
 const port = 3000;
 
-// Body parsing Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", async (req: Request, res: Response): Promise<Response> => {
 	console.log(req.ip, req.url);
+
+    matrix.drawLine(0,0,1,1);
 
 	return res.status(200).send({
             message: "Hello World!",
