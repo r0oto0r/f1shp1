@@ -1,51 +1,43 @@
 import express, { Application, Request, Response } from "express";
-import { LedMatrix } from 'rpi-led-matrix';
- 
-const matrix = new LedMatrix(
-  {
-        ...LedMatrix.defaultMatrixOptions(),
-        rows: 64,
-        cols: 64
-  },
-  LedMatrix.defaultRuntimeOptions()
-);
+import { LedMatrixController }from "./LedMatrixController";
+import mongoose from 'mongoose';
+import { Pixel, PixelImage as PixelImageShema } from "./PixelImage";
+
+const ledMatrixController: LedMatrixController = new LedMatrixController();
+const PixelImage = mongoose.model('PixelImage', PixelImageShema);
 
 const app: Application = express();
-const port = 3000;
+const port = 4000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-let clearTimer: NodeJS.Timeout;
-
 app.get("/", async (req: Request, res: Response): Promise<Response> => {
 	console.log(req.ip, req.url);
-
-    clearTimeout(clearTimer);
-
     console.log('draw test screen');
 
-    matrix
-        .clear()            // clear the display
-        .brightness(100)    // set the panel brightness to 100%
-        .fgColor(0x0000FF)  // set the active color to blue
-        .fill()             // color the entire diplay blue
-        .fgColor(0xFFFF00)  // set the active color to yellow
-        // draw a yellow circle around the display
-        .drawCircle(matrix.width() / 2, matrix.height() / 2, matrix.width() / 2 - 1)
-        // draw a yellow rectangle
-        .drawRect(matrix.width() / 4, matrix.height() / 4, matrix.width() / 2, matrix.height() / 2)
-        // sets the active color to red
-        .fgColor({ r: 255, g: 0, b: 0 })
-        // draw two diagonal red lines connecting the corners
-        .drawLine(0, 0, matrix.width(), matrix.height())
-        .drawLine(matrix.width() - 1, 0, 0, matrix.height() - 1)
-        .sync();
+    const pixelGrid = new Array<Array<Pixel>>();
 
-    clearTimer = setTimeout(() => {
-        console.log('clear screen');
-        matrix.clear();
-    }, 5000);
+    for(let i = 0; i < 64; i++) {
+        pixelGrid[i] = new Array<Pixel>(64);
+        for(let j = 0; j < 64; j++) {
+            pixelGrid[i][j] = <Pixel> {
+                r: 0,
+                g: 0,
+                b: 0
+            }
+        }
+    }
+
+    const pixelImage = new PixelImage({
+        pixelGrid
+    });
+
+    console.log((await pixelImage.save())._id);
+
+    console.log(await PixelImage.find());
+
+    ledMatrixController.runTest();
 
 	return res.status(200).send({
             result: "OK",
@@ -53,10 +45,13 @@ app.get("/", async (req: Request, res: Response): Promise<Response> => {
     }
 );
 
-try {
-    app.listen(port, (): void => {
-        console.log(`Connected successfully on port ${port}`);
-    });
-} catch (error: any) {
-    console.error(`Error occured: ${error.message}`);
-}
+(async () => {
+    try {
+        await mongoose.connect('mongodb://localhost/papierfitzelchen');
+        app.listen(port, (): void => {
+            console.log(`Connected successfully on port ${port}`);
+        });
+    } catch (error: any) {
+        console.error(`Error occured: ${error.message}`);
+    }
+})();
