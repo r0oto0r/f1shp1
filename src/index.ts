@@ -16,7 +16,7 @@ app.get("/", async (req: Request, res: Response): Promise<Response> => {
 	console.log(req.ip, req.url);
     console.log('draw test screen');
 
-    const pixelGrid = new Array<Array<Pixel>>();
+    /*const pixelGrid = new Array<Array<Pixel>>();
 
     for(let i = 0; i < 64; i++) {
         pixelGrid[i] = new Array<Pixel>(64);
@@ -35,7 +35,7 @@ app.get("/", async (req: Request, res: Response): Promise<Response> => {
 
     console.log((await pixelImage.save())._id);
 
-    console.log(await PixelImage.find());
+    console.log(await PixelImage.find());*/
 
     ledMatrixController.runTest();
 
