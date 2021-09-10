@@ -16,7 +16,8 @@ export class LedMatrixController {
             {
                 ...LedMatrix.defaultMatrixOptions(),
                 rows: 64,
-                cols: 64
+                cols: 64,
+                chainLength: 1
             },
             LedMatrix.defaultRuntimeOptions()
         );
