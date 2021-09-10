@@ -9,10 +9,11 @@ export class LedMatrixController {
             {
                 ...LedMatrix.defaultMatrixOptions(),
                 rows: 64,
-                cols: 64,
-                chainLength: 1
-            },
-            LedMatrix.defaultRuntimeOptions()
+                cols: 64
+            }, {
+                ...LedMatrix.defaultRuntimeOptions(),
+                gpioSlowdown: 1
+            }
         );
         this.counter = 0;
 
