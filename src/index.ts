@@ -12,7 +12,7 @@ const port = 4000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", async (req: Request, res: Response): Promise<Response> => {
+app.post("/", async (req: Request, res: Response): Promise<Response> => {
 	console.log(req.ip, req.url);
     console.log('draw pixelgrid');
     const pixelGrid: PixelGrid = <PixelGrid> req.body.pixelGrid;
