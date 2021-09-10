@@ -12,22 +12,22 @@ export class LedMatrixController {
                 cols: 64
             }, {
                 ...LedMatrix.defaultRuntimeOptions(),
-                gpioSlowdown: 1
+                gpioSlowdown: 2
             }
         );
         this.counter = 0;
 
         this.matrix.afterSync((mat, dt, t) => {
-            this.counter = this.counter + t;
+            this.counter = (this.counter + t) % 0xFFFFFF;
 
             this.matrix
                 .clear()
                 .brightness(100)
-                .fgColor(this.counter % 0xFFFFFF)
+                .fgColor(this.counter)
                 .fill()
                 .sync();
             
-            setTimeout(() => this.matrix.sync(), 100);
+            setTimeout(() => this.matrix.sync(), 1000);
         });
     }
 
