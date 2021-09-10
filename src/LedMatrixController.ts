@@ -26,7 +26,7 @@ export class LedMatrixController {
                 .fill()
                 .sync();
             
-            setTimeout(() => this.matrix.sync(), 0);
+            setTimeout(() => this.matrix.sync(), 100);
         });
     }
 
