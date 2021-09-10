@@ -2,7 +2,6 @@ import { LedMatrix, LedMatrixInstance } from 'rpi-led-matrix';
 
 export class LedMatrixController {
     private matrix: LedMatrixInstance;
-    private clearTimer: NodeJS.Timeout;
     private counter: number;
 
     constructor() {
@@ -16,20 +15,22 @@ export class LedMatrixController {
             LedMatrix.defaultRuntimeOptions()
         );
         this.counter = 0;
+
+        this.matrix.afterSync((mat, dt, t) => {
+            this.counter = this.counter + t;
+
+            this.matrix
+                .clear()
+                .brightness(100)
+                .fgColor(this.counter % 0xFFFFFF)
+                .fill()
+                .sync();
+            
+            setTimeout(() => this.matrix.sync(), 0);
+        });
     }
 
     public runTest() {
-        clearTimeout(this.clearTimer);
-
-        this.counter = this.counter + 1;
-
-        this.matrix
-            .clear()
-            .brightness(100)
-            .fgColor(this.counter % 0xFFFFFF)
-            .fill()
-            .sync();
-
-        this.clearTimer = setTimeout(() => this.runTest, 10000);
+        this.matrix.sync();
     }
 }
