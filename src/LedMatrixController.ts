@@ -21,19 +21,9 @@ export class LedMatrixController {
 
         this.matrix
             .clear()            // clear the display
-            .brightness(50)    // set the panel brightness to 100%
+            .brightness(100)    // set the panel brightness to 100%
             .fgColor(0x0000FF)  // set the active color to blue
             .fill()             // color the entire diplay blue
-            .fgColor(0xFFFF00)  // set the active color to yellow
-            // draw a yellow circle around the display
-            .drawCircle(this.matrix.width() / 2, this.matrix.height() / 2, this.matrix.width() / 2 - 1)
-            // draw a yellow rectangle
-            .drawRect(this.matrix.width() / 4, this.matrix.height() / 4, this.matrix.width() / 2, this.matrix.height() / 2)
-            // sets the active color to red
-            .fgColor({ r: 255, g: 0, b: 0 })
-            // draw two diagonal red lines connecting the corners
-            .drawLine(0, 0, this.matrix.width(), this.matrix.height())
-            .drawLine(this.matrix.width() - 1, 0, 0, this.matrix.height() - 1)
             .sync();
 
         this.clearTimer = setTimeout(() => {
