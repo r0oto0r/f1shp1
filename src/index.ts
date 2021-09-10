@@ -3,6 +3,7 @@ import { LedMatrixController }from "./LedMatrixController";
 //import mongoose from 'mongoose';
 import { Pixel, PixelGrid, PixelImage as PixelImageShema } from "./PixelImage";
 import cors from 'cors';
+import compression from "compression";
 
 const ledMatrixController: LedMatrixController = new LedMatrixController();
 //const PixelImage = mongoose.model('PixelImage', PixelImageShema);
@@ -10,11 +11,12 @@ const ledMatrixController: LedMatrixController = new LedMatrixController();
 const app: Application = express();
 const port = 4000;
 
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true }));
+app.use(compression());
 app.use(cors({
     origin: '*'
 }));
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true }));
 
 app.post("/", async (req: Request, res: Response): Promise<Response> => {
 	console.log(req.ip, req.url);
