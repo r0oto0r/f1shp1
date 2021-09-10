@@ -1,18 +1,10 @@
 import { LedMatrix, LedMatrixInstance } from 'rpi-led-matrix';
 
 export class LedMatrixController {
-    private runsOnPi: boolean = false;
     private matrix: LedMatrixInstance;
     private clearTimer: NodeJS.Timeout;
 
     constructor() {
-        if(process.env.runsOnPi) {
-            console.log('Running on PI');
-            this.runsOnPi = true;
-        }
-        if(!this.runsOnPi) {
-            return;
-        }
         this.matrix = new LedMatrix(
             {
                 ...LedMatrix.defaultMatrixOptions(),
@@ -25,10 +17,6 @@ export class LedMatrixController {
     }
 
     public runTest() {
-        if(!this.runsOnPi) {
-            return;
-        }
-
         clearTimeout(this.clearTimer);
 
         this.matrix
