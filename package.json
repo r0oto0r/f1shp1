@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "out/index.js",
-  "type": "module",
   "scripts": {
     "tsc": "tsc",
     "start": "node out/index.js",
