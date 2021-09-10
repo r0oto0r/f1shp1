@@ -1,10 +1,10 @@
 import express, { Application, Request, Response } from "express";
 import { LedMatrixController }from "./LedMatrixController";
-import mongoose from 'mongoose';
+//import mongoose from 'mongoose';
 import { Pixel, PixelImage as PixelImageShema } from "./PixelImage";
 
 const ledMatrixController: LedMatrixController = new LedMatrixController();
-const PixelImage = mongoose.model('PixelImage', PixelImageShema);
+//const PixelImage = mongoose.model('PixelImage', PixelImageShema);
 
 const app: Application = express();
 const port = 4000;
@@ -47,7 +47,7 @@ app.get("/", async (req: Request, res: Response): Promise<Response> => {
 
 (async () => {
     try {
-        await mongoose.connect('mongodb://localhost/papierfitzelchen');
+        //await mongoose.connect('mongodb://localhost/papierfitzelchen');
         app.listen(port, (): void => {
             console.log(`Connected successfully on port ${port}`);
         });
