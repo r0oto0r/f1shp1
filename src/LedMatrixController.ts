@@ -3,6 +3,7 @@ import { LedMatrix, LedMatrixInstance } from 'rpi-led-matrix';
 export class LedMatrixController {
     private matrix: LedMatrixInstance;
     private clearTimer: NodeJS.Timeout;
+    private counter: number;
 
     constructor() {
         this.matrix = new LedMatrix(
@@ -14,21 +15,21 @@ export class LedMatrixController {
             },
             LedMatrix.defaultRuntimeOptions()
         );
+        this.counter = 0;
     }
 
     public runTest() {
         clearTimeout(this.clearTimer);
 
+        this.counter = this.counter + 1;
+
         this.matrix
-            .clear()            // clear the display
-            .brightness(100)    // set the panel brightness to 100%
-            .fgColor(0x0000FF)  // set the active color to blue
-            .fill()             // color the entire diplay blue
+            .clear()
+            .brightness(100)
+            .fgColor(this.counter % 0xFFFFFF)
+            .fill()
             .sync();
 
-        this.clearTimer = setTimeout(() => {
-            console.log('clear screen');
-            this.matrix.clear().sync();;
-        }, 10000);
+        this.clearTimer = setTimeout(() => this.runTest, 10000);
     }
 }
