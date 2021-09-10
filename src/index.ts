@@ -1,7 +1,7 @@
 import express, { Application, Request, Response } from "express";
 import { LedMatrixController }from "./LedMatrixController";
 //import mongoose from 'mongoose';
-import { Pixel, PixelImage as PixelImageShema } from "./PixelImage";
+import { Pixel, PixelGrid, PixelImage as PixelImageShema } from "./PixelImage";
 
 const ledMatrixController: LedMatrixController = new LedMatrixController();
 //const PixelImage = mongoose.model('PixelImage', PixelImageShema);
@@ -14,7 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/", async (req: Request, res: Response): Promise<Response> => {
 	console.log(req.ip, req.url);
-    console.log('draw test screen');
+    console.log('draw pixelgrid');
+    const pixelGrid: PixelGrid = <PixelGrid> req.body.pixelGrid;
 
     /*const pixelGrid = new Array<Array<Pixel>>();
 
@@ -37,7 +38,7 @@ app.get("/", async (req: Request, res: Response): Promise<Response> => {
 
     console.log(await PixelImage.find());*/
 
-    ledMatrixController.runTest();
+    ledMatrixController.drawPixelGrid(pixelGrid);
 
 	return res.status(200).send({
             result: "OK",

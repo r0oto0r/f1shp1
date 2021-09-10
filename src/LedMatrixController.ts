@@ -1,8 +1,8 @@
 import { LedMatrix, LedMatrixInstance } from 'rpi-led-matrix';
+import { PixelGrid } from './PixelImage';
 
 export class LedMatrixController {
     private matrix: LedMatrixInstance;
-    private counter: number;
 
     constructor() {
         this.matrix = new LedMatrix(
@@ -15,23 +15,16 @@ export class LedMatrixController {
                 gpioSlowdown: 2
             }
         );
-        this.counter = 0;
-
-        this.matrix.afterSync((mat, dt, t) => {
-            this.counter = (this.counter + t) % 0xFFFFFF;
-
-            this.matrix
-                .clear()
-                .brightness(100)
-                .fgColor(this.counter)
-                .fill()
-                .sync();
-            
-            setTimeout(() => this.matrix.sync(), 1000);
-        });
     }
 
-    public runTest() {
+    public drawPixelGrid(pixelGrid: PixelGrid) {
+        this.matrix.clear();
+        for(let i = 0; i < pixelGrid.length; ++i) {
+            for(let j = 0; j < pixelGrid.length; ++j) {
+                const pixel = pixelGrid[i][j];
+                
+            }
+        }
         this.matrix.sync();
     }
 }
