@@ -6,7 +6,7 @@ export class LedMatrixController {
     private clearTimer: NodeJS.Timeout;
 
     constructor() {
-        if(process.env.runOnPi) {
+        if(process.env.runsOnPi) {
             console.log('Running on PI');
             this.runsOnPi = true;
         }
