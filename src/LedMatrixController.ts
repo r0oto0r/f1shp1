@@ -38,7 +38,7 @@ export class LedMatrixController {
 
         this.clearTimer = setTimeout(() => {
             console.log('clear screen');
-            this.matrix.clear();
+            this.matrix.clear().sync();;
         }, 5000);
     }
 }
