@@ -21,7 +21,7 @@ export class LedMatrixController {
 
         this.matrix
             .clear()            // clear the display
-            .brightness(100)    // set the panel brightness to 100%
+            .brightness(50)    // set the panel brightness to 100%
             .fgColor(0x0000FF)  // set the active color to blue
             .fill()             // color the entire diplay blue
             .fgColor(0xFFFF00)  // set the active color to yellow
