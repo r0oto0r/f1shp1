@@ -7,7 +7,7 @@
   "scripts": {
     "tsc": "tsc",
     "start": "node out/index.js",
-    "start-pi": "sudo ~/.nvm/versions/node/v10.24.1/bin/node out/index.js"
+    "start-pi": "runOnPi=true sudo ~/.nvm/versions/node/v10.24.1/bin/node out/index.js"
   },
   "repository": {
     "type": "git",

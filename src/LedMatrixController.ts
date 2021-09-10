@@ -7,6 +7,7 @@ export class LedMatrixController {
 
     constructor() {
         if(process.env.runOnPi) {
+            console.log('Running on PI');
             this.runsOnPi = true;
         }
         if(!this.runsOnPi) {
