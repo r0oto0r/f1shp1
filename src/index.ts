@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from "express";
 import { LedMatrixController }from "./LedMatrixController";
 //import mongoose from 'mongoose';
 import { Pixel, PixelGrid, PixelImage as PixelImageShema } from "./PixelImage";
+import cors from 'cors';
 
 const ledMatrixController: LedMatrixController = new LedMatrixController();
 //const PixelImage = mongoose.model('PixelImage', PixelImageShema);
@@ -9,6 +10,9 @@ const ledMatrixController: LedMatrixController = new LedMatrixController();
 const app: Application = express();
 const port = 4000;
 
+app.use(cors({
+    origin: '*'
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
