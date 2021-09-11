@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import { LedMatrixController }from "./LedMatrixController";
-import { Pixel, PixelGrid, PixelImage as PixelImageShema } from "./PixelImage";
+import { Pixel, PixelGrid } from "./PixelImage";
 import cors from 'cors';
 import compression from "compression";
 
@@ -35,6 +35,19 @@ app.post("/drawPixel", async (req: Request, res: Response): Promise<Response> =>
     const pixel: Pixel = <Pixel> req.body.pixel;
 
     ledMatrixController.drawPixel(pixel);
+
+	return res.status(200).send({
+            result: "OK",
+        });
+    }
+);
+
+app.post("/setBrightness", async (req: Request, res: Response): Promise<Response> => {
+	console.log(req.ip, req.url);
+    console.log('set brightness');
+    const brightness: number = parseInt(req.body.brightness);
+
+    ledMatrixController.setBrightness(brightness);
 
 	return res.status(200).send({
             result: "OK",

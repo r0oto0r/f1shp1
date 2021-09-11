@@ -44,4 +44,10 @@ export class LedMatrixController {
             .clear()
             .sync();
     }
+
+    public setBrightness(brightness: number) {
+        this.matrix
+            .brightness(brightness)
+            .sync();
+    }
 }
