@@ -18,7 +18,6 @@ export class LedMatrixController {
     }
 
     public drawPixelGrid(pixelGrid: PixelGrid) {
-        console.log(pixelGrid);
         if(!pixelGrid) return;
         this.matrix.clear();
         for(let i = 0; i < pixelGrid.length; ++i) {
