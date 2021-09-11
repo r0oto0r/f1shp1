@@ -42,6 +42,18 @@ app.post("/drawPixel", async (req: Request, res: Response): Promise<Response> =>
     }
 );
 
+app.get("/clear", async (req: Request, res: Response): Promise<Response> => {
+	console.log(req.ip, req.url);
+    console.log('clear screen');
+
+    ledMatrixController.clearScreen();
+
+	return res.status(200).send({
+            result: "OK",
+        });
+    }
+);
+
 (async () => {
     try {
         //await mongoose.connect('mongodb://localhost/papierfitzelchen');

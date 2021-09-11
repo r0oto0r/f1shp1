@@ -38,4 +38,10 @@ export class LedMatrixController {
             .setPixel(pixel.x, pixel.y)
             .sync();
     }
+
+    public clearScreen() {
+        this.matrix
+            .clear()
+            .sync();
+    }
 }
