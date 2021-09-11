@@ -30,4 +30,12 @@ export class LedMatrixController {
         }
         this.matrix.sync();
     }
+
+    public drawPixel(pixel: Pixel) {
+        if(!pixel) return;
+        this.matrix
+            .fgColor(pixel)
+            .setPixel(pixel.x, pixel.y)
+            .sync();
+    }
 }
