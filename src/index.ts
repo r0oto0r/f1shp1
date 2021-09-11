@@ -46,7 +46,7 @@ app.post("/setBrightness", async (req: Request, res: Response): Promise<Response
 	console.log(req.ip, req.url);
     console.log('set brightness');
     const brightness: number = parseInt(req.body.brightness);
-    console.log(brightness);
+
     ledMatrixController.setBrightness(brightness);
 
 	return res.status(200).send({
