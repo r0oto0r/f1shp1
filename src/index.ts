@@ -76,8 +76,9 @@ app.get("/clear", async (req: Request, res: Response): Promise<Response> => {
         //await mongoose.connect('mongodb://localhost/papierfitzelchen');
         socketServer.on('connection', client => {
             const ip = client.handshake.address;
+            console.log(`${ip} connected`);
             client.on('/drawPixels', (pixels: Pixel[]) => {
-                console.log(`${ip} connected`);
+                console.log(`${ip} /drawPixels`);
                 ledMatrixController.drawPixels(pixels);
             });
             client.off('disconnect', () => {
