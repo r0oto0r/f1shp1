@@ -42,6 +42,21 @@ app.post("/drawPixel", async (req: Request, res: Response): Promise<Response> =>
     }
 );
 
+app.post("/drawPixels", async (req: Request, res: Response): Promise<Response> => {
+	console.log(req.ip, req.url);
+    console.log('draw pixels');
+    const pixels: Pixel[] = <Pixel[]> req.body.pixels;
+
+	for(const pixel of pixels) {
+		ledMatrixController.drawPixel(pixel);
+	}
+
+	return res.status(200).send({
+            result: "OK",
+        });
+    }
+);
+
 app.post("/setBrightness", async (req: Request, res: Response): Promise<Response> => {
 	console.log(req.ip, req.url);
     console.log('set brightness');
