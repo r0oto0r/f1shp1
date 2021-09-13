@@ -17,8 +17,6 @@ app.use(cors({
 }));
 
 app.post("/drawPixelGrid", async (req: Request, res: Response): Promise<Response> => {
-	console.log(req.ip, req.url);
-    console.log('draw pixelgrid');
     const pixelGrid: PixelGrid = <PixelGrid> req.body.pixelGrid;
 
     ledMatrixController.drawPixelGrid(pixelGrid);
@@ -30,8 +28,6 @@ app.post("/drawPixelGrid", async (req: Request, res: Response): Promise<Response
 );
 
 app.post("/drawPixel", async (req: Request, res: Response): Promise<Response> => {
-	console.log(req.ip, req.url);
-    console.log('draw pixel');
     const pixel: Pixel = <Pixel> req.body.pixel;
 
     ledMatrixController.drawPixel(pixel);
@@ -43,8 +39,6 @@ app.post("/drawPixel", async (req: Request, res: Response): Promise<Response> =>
 );
 
 app.post("/drawPixels", async (req: Request, res: Response): Promise<Response> => {
-	console.log(req.ip, req.url);
-    console.log('draw pixels');
     const pixels: Pixel[] = <Pixel[]> req.body.pixels;
 
 	for(const pixel of pixels) {
@@ -58,8 +52,6 @@ app.post("/drawPixels", async (req: Request, res: Response): Promise<Response> =
 );
 
 app.post("/setBrightness", async (req: Request, res: Response): Promise<Response> => {
-	console.log(req.ip, req.url);
-    console.log('set brightness');
     const brightness: number = parseInt(req.body.brightness);
 
     ledMatrixController.setBrightness(brightness);
@@ -71,9 +63,6 @@ app.post("/setBrightness", async (req: Request, res: Response): Promise<Response
 );
 
 app.get("/clear", async (req: Request, res: Response): Promise<Response> => {
-	console.log(req.ip, req.url);
-    console.log('clear screen');
-
     ledMatrixController.clearScreen();
 
 	return res.status(200).send({
