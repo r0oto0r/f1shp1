@@ -9,7 +9,7 @@ const ledMatrixController: LedMatrixController = new LedMatrixController();
 
 const app: Application = express();
 const port = 4000;
-const socketServer = new Server();
+const socketServer = new Server({ transports: [ 'websocket' ] });
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
