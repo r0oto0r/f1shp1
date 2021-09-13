@@ -78,7 +78,6 @@ app.get("/clear", async (req: Request, res: Response): Promise<Response> => {
             const ip = client.handshake.address;
             console.log(`${ip} connected`);
             client.on('/drawPixels', (pixels: Pixel[]) => {
-                console.log(`${ip} /drawPixels`);
                 ledMatrixController.drawPixels(pixels);
             });
             client.off('disconnect', () => {
