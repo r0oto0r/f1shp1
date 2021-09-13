@@ -39,7 +39,7 @@ export class LedMatrixController {
     }
 
 	public drawPixels(pixels: Pixel[]) {
-        if(!pixels) return;
+        if(!pixels || pixels.length < 1) return;
 		for(const pixel of pixels) {
 			this.matrix
 				.fgColor(pixel)
