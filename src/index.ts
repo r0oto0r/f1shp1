@@ -41,9 +41,7 @@ app.post("/drawPixel", async (req: Request, res: Response): Promise<Response> =>
 app.post("/drawPixels", async (req: Request, res: Response): Promise<Response> => {
     const pixels: Pixel[] = <Pixel[]> req.body.pixels;
 
-	for(const pixel of pixels) {
-		ledMatrixController.drawPixel(pixel);
-	}
+	ledMatrixController.drawPixels(pixels);
 
 	return res.status(200).send({
             result: "OK",

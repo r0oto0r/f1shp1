@@ -39,6 +39,16 @@ export class LedMatrixController {
             .sync();
     }
 
+	public drawPixels(pixels: Pixel[]) {
+        if(!pixels) return;
+		for(const pixel of pixels) {
+			this.matrix
+				.fgColor(pixel)
+				.setPixel(pixel.x, pixel.y)
+		}
+		this.matrix.sync();
+    }
+
     public clearScreen() {
         this.matrix
             .clear()
