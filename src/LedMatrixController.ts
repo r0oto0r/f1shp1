@@ -23,7 +23,6 @@ export class LedMatrixController {
         for(let i = 0; i < pixelGrid.length; ++i) {
             for(let j = 0; j < pixelGrid.length; ++j) {
                 const pixel: Pixel = pixelGrid[i][j];
-                
                 this.matrix.fgColor(pixel)
                 this.matrix.setPixel(j, i);
             }

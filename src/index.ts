@@ -3,11 +3,13 @@ import { LedMatrixController }from "./LedMatrixController";
 import { Pixel, PixelGrid } from "./PixelImage";
 import cors from 'cors';
 import compression from "compression";
+import { Server } from 'socket.io';
 
 const ledMatrixController: LedMatrixController = new LedMatrixController();
 
 const app: Application = express();
 const port = 4000;
+const socketServer = new Server();
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
@@ -72,6 +74,17 @@ app.get("/clear", async (req: Request, res: Response): Promise<Response> => {
 (async () => {
     try {
         //await mongoose.connect('mongodb://localhost/papierfitzelchen');
+        socketServer.on('connection', client => {
+            const ip = client.handshake.address;
+            client.on('/drawPixels', (pixels: Pixel[]) => {
+                console.log(`${ip} connected`);
+                ledMatrixController.drawPixels(pixels);
+            });
+            client.off('disconnect', () => {
+                console.log(`${ip} disconnected`);
+            });
+        });
+        socketServer.listen(5000);
         app.listen(port, (): void => {
             console.log(`Connected successfully on port ${port}`);
         });
