@@ -12,7 +12,7 @@ export class LedMatrixController {
                 cols: 64
             }, {
                 ...LedMatrix.defaultRuntimeOptions(),
-                gpioSlowdown: 2
+                gpioSlowdown: 3
             }
         );
     }
