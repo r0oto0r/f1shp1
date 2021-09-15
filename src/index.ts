@@ -32,8 +32,9 @@ const socketServer = new Server({ transports: [ 'websocket' ] });
                 ledMatrixController.clearScreen();
             });
 
-            client.off('disconnect', () => {
+            client.on('disconnect', () => {
                 console.log(`${ip} disconnected`);
+				client.offAny();
             });
         });
         socketServer.listen(5000);
