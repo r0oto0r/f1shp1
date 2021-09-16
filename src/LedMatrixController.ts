@@ -3,6 +3,7 @@ import { Pixel, PixelGrid } from './PixelImage';
 
 export class LedMatrixController {
     private matrix: LedMatrixInstance;
+	private brightness: number;
 
     constructor() {
         this.matrix = new LedMatrix(
@@ -15,6 +16,7 @@ export class LedMatrixController {
                 gpioSlowdown: 3
             }
         );
+		this.brightness = 50;
     }
 
     public drawPixelGrid(pixelGrid: PixelGrid) {
@@ -27,7 +29,7 @@ export class LedMatrixController {
                 this.matrix.setPixel(j, i);
             }
         }
-        this.matrix.sync();
+        this.matrix.brightness(this.brightness).sync();
     }
 
     public drawPixel(pixel: Pixel) {
@@ -35,6 +37,7 @@ export class LedMatrixController {
         this.matrix
             .fgColor(pixel)
             .setPixel(pixel.x, pixel.y)
+			.brightness(this.brightness)
             .sync();
     }
 
@@ -45,18 +48,17 @@ export class LedMatrixController {
 				.fgColor(pixel)
 				.setPixel(pixel.x, pixel.y)
 		}
-		this.matrix.sync();
+		this.matrix.brightness(this.brightness).sync();
     }
 
     public clearScreen() {
         this.matrix
             .clear()
+			.brightness(this.brightness)
             .sync();
     }
 
     public setBrightness(brightness: number) {
-        this.matrix
-            .brightness(brightness)
-            .sync();
+        this.brightness = brightness;
     }
 }
