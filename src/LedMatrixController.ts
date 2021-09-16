@@ -11,8 +11,7 @@ export class LedMatrixController {
             {
                 ...LedMatrix.defaultMatrixOptions(),
                 rows: 64,
-                cols: 64,
-				showRefreshRate: true
+                cols: 64
             }, {
                 ...LedMatrix.defaultRuntimeOptions(),
                 gpioSlowdown: 3,
