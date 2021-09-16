@@ -1,7 +1,7 @@
 import { LedMatrix, LedMatrixInstance } from 'rpi-led-matrix';
 import { Pixel, PixelGrid } from './PixelImage';
 
-export class LedMatrixController {
+export class LedMatrixController { 
     private matrix: LedMatrixInstance;
 	private brightness: number;
 
@@ -60,5 +60,8 @@ export class LedMatrixController {
 
     public setBrightness(brightness: number) {
         this.brightness = brightness;
+		this.matrix
+			.brightness(this.brightness)
+            .sync();
     }
 }
