@@ -22,7 +22,7 @@ export class LedMatrixController {
     }
 
 	private sync() {
-		this.matrix.sync();
+		this.matrix.brightness(this.brightness).sync();
 	}
 
 	private resetPixelGrid() {
