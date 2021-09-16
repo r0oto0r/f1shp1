@@ -2,7 +2,7 @@ import { LedMatrix, LedMatrixInstance } from 'rpi-led-matrix';
 import { Pixel, PixelGrid } from './PixelImage';
 
 export class LedMatrixController {
-	private pixelGrid: PixelGrid;
+	private pixelGrid: PixelGrid = Array<Array<Pixel>>();
     private matrix: LedMatrixInstance;
 	private brightness: number;
 
@@ -17,6 +17,11 @@ export class LedMatrixController {
                 gpioSlowdown: 3
             }
         );
+		this.resetPixelGrid();
+		this.brightness = 100;
+    }
+
+	private resetPixelGrid() {
 		this.pixelGrid = Array<Array<Pixel>>(64);
 		for(let i = 0; i < this.pixelGrid.length; ++i) {
 			this.pixelGrid[i] = new Array<Pixel>(64);
@@ -29,9 +34,7 @@ export class LedMatrixController {
 					b: 0
 				} as Pixel
 			}
-		}
-		this.brightness = 100;
-    }
+		}}
 
     public drawPixelGrid(pixelGrid: PixelGrid) {
         if(!pixelGrid) return;
@@ -69,6 +72,7 @@ export class LedMatrixController {
     }
 
     public clearScreen() {
+		this.resetPixelGrid();
         this.matrix
             .clear()
 			.brightness(this.brightness)
