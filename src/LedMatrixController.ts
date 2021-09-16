@@ -1,7 +1,8 @@
 import { LedMatrix, LedMatrixInstance } from 'rpi-led-matrix';
 import { Pixel, PixelGrid } from './PixelImage';
 
-export class LedMatrixController { 
+export class LedMatrixController {
+	private pixelGrid: PixelGrid;
     private matrix: LedMatrixInstance;
 	private brightness: number;
 
@@ -16,11 +17,25 @@ export class LedMatrixController {
                 gpioSlowdown: 3
             }
         );
+		this.pixelGrid = Array<Array<Pixel>>(64);
+		for(let i = 0; i < this.pixelGrid.length; ++i) {
+			this.pixelGrid[i] = new Array<Pixel>(64);
+			for(let j = 0; j < this.pixelGrid[i].length; ++j) {
+				this.pixelGrid[i][j] = {
+					x: j,
+					y: i,
+					r: 0,
+					g: 0,
+					b: 0
+				} as Pixel
+			}
+		}
 		this.brightness = 50;
     }
 
     public drawPixelGrid(pixelGrid: PixelGrid) {
         if(!pixelGrid) return;
+		this.pixelGrid = pixelGrid;
         this.matrix.clear();
         for(let i = 0; i < pixelGrid.length; ++i) {
             for(let j = 0; j < pixelGrid.length; ++j) {
@@ -34,6 +49,7 @@ export class LedMatrixController {
 
     public drawPixel(pixel: Pixel) {
         if(!pixel) return;
+		this.pixelGrid[pixel.x][pixel.y] = pixel;
         this.matrix
             .fgColor(pixel)
             .setPixel(pixel.x, pixel.y)
@@ -44,6 +60,7 @@ export class LedMatrixController {
 	public drawPixels(pixels: Pixel[]) {
         if(!pixels || pixels.length < 1) return;
 		for(const pixel of pixels) {
+			this.pixelGrid[pixel.x][pixel.y] = pixel;
 			this.matrix
 				.fgColor(pixel)
 				.setPixel(pixel.x, pixel.y)
@@ -60,8 +77,6 @@ export class LedMatrixController {
 
     public setBrightness(brightness: number) {
         this.brightness = brightness;
-		this.matrix
-			.brightness(this.brightness)
-            .sync();
+		this.drawPixelGrid(this.pixelGrid);
     }
 }
