@@ -5,25 +5,19 @@ export class LedMatrixController {
 	private pixelGrid: PixelGrid = Array<Array<Pixel>>();
     private matrix: LedMatrixInstance;
 	private brightness: number;
-	private counter: number;
 
     constructor() {
         this.matrix = new LedMatrix(
             {
                 ...LedMatrix.defaultMatrixOptions(),
                 rows: 64,
-                cols: 64
+                cols: 64,
+				showRefreshRate: true
             }, {
                 ...LedMatrix.defaultRuntimeOptions(),
-                gpioSlowdown: 3
+                gpioSlowdown: 3,
             }
         );
-		this.counter = 0;
-		this.matrix.afterSync(() => {this.counter = this.counter + 1});
-		setInterval(() => {
-			console.log(this.counter);
-			this.counter = 0;
-		}, 1000);
 		this.resetPixelGrid();
 		this.brightness = 100;
     }
