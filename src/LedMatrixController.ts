@@ -30,7 +30,7 @@ export class LedMatrixController {
 				} as Pixel
 			}
 		}
-		this.brightness = 50;
+		this.brightness = 100;
     }
 
     public drawPixelGrid(pixelGrid: PixelGrid) {
