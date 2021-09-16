@@ -22,6 +22,10 @@ export class LedMatrixController {
 		this.brightness = 100;
     }
 
+	private sync() {
+		this.matrix.sync();
+	}
+
 	private resetPixelGrid() {
 		this.pixelGrid = Array<Array<Pixel>>(64);
 		for(let i = 0; i < this.pixelGrid.length; ++i) {
@@ -48,7 +52,7 @@ export class LedMatrixController {
                 this.matrix.setPixel(j, i);
             }
         }
-        this.matrix.brightness(this.brightness).sync();
+        this.sync();
     }
 
     public drawPixel(pixel: Pixel) {
@@ -56,9 +60,8 @@ export class LedMatrixController {
 		this.pixelGrid[pixel.y][pixel.x] = pixel;
         this.matrix
             .fgColor(pixel)
-            .setPixel(pixel.x, pixel.y)
-			.brightness(this.brightness)
-            .sync();
+            .setPixel(pixel.x, pixel.y);
+		this.sync();
     }
 
 	public drawPixels(pixels: Pixel[]) {
@@ -69,15 +72,13 @@ export class LedMatrixController {
 				.fgColor(pixel)
 				.setPixel(pixel.x, pixel.y)
 		}
-		this.matrix.brightness(this.brightness).sync();
+		this.sync();
     }
 
     public clearScreen() {
 		this.resetPixelGrid();
-        this.matrix
-            .clear()
-			.brightness(this.brightness)
-            .sync();
+        this.matrix.clear();
+		this.sync();
     }
 
     public setBrightness(brightness: number) {
