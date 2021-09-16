@@ -5,6 +5,7 @@ export class LedMatrixController {
 	private pixelGrid: PixelGrid = Array<Array<Pixel>>();
     private matrix: LedMatrixInstance;
 	private brightness: number;
+	private counter: number;
 
     constructor() {
         this.matrix = new LedMatrix(
@@ -17,6 +18,12 @@ export class LedMatrixController {
                 gpioSlowdown: 3
             }
         );
+		this.counter = 0;
+		this.matrix.afterSync(() => {this.counter = this.counter + 1});
+		setInterval(() => {
+			console.log(this.counter);
+			this.counter = 0;
+		}, 1000);
 		this.resetPixelGrid();
 		this.brightness = 100;
     }
