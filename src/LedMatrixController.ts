@@ -49,7 +49,7 @@ export class LedMatrixController {
 
     public drawPixel(pixel: Pixel) {
         if(!pixel) return;
-		this.pixelGrid[pixel.x][pixel.y] = pixel;
+		this.pixelGrid[pixel.y][pixel.x] = pixel;
         this.matrix
             .fgColor(pixel)
             .setPixel(pixel.x, pixel.y)
@@ -60,7 +60,7 @@ export class LedMatrixController {
 	public drawPixels(pixels: Pixel[]) {
         if(!pixels || pixels.length < 1) return;
 		for(const pixel of pixels) {
-			this.pixelGrid[pixel.x][pixel.y] = pixel;
+			this.pixelGrid[pixel.y][pixel.x] = pixel;
 			this.matrix
 				.fgColor(pixel)
 				.setPixel(pixel.x, pixel.y)
