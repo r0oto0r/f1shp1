@@ -1,13 +1,15 @@
 import { LedMatrixController }from "./LedMatrixController";
 import { Pixel, PixelGrid } from "./PixelImage";
 import { Server } from 'socket.io';
+import { ImageStoreController } from "./ImageStoreController";
 
 const ledMatrixController: LedMatrixController = new LedMatrixController();
 const socketServer = new Server({ transports: [ 'websocket' ] });
 
 (async () => {
     try {
-        //await mongoose.connect('mongodb://localhost/papierfitzelchen');
+		await ImageStoreController.init();
+
         socketServer.on('connection', client => {
             const ip = client.handshake.address;
             console.log(`${ip} connected`);
@@ -26,6 +28,14 @@ const socketServer = new Server({ transports: [ 'websocket' ] });
 
 			client.on('setBrightness', (brightness: number) => {
                 ledMatrixController.setBrightness(brightness);
+            });
+
+			client.on('getPixelImages', async ({ skip, take }: { skip: number, take: number }) => {
+                client.emit('getPixelImagesResult', await ImageStoreController.getPixelImagesPaginated(skip, take));
+            });
+
+			client.on('savePixelImage', async ({ name, pixelGrid }: { name: string, pixelGrid: PixelGrid }) => {
+                client.emit('savePixelImageResult', await ImageStoreController.savePixelImage(name, pixelGrid));
             });
 
 			client.on('clear', () => {
